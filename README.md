@@ -1,6 +1,6 @@
 # Autograd
 
-Toy implementation of automatic gradients for training neural networks. See Jupyter notebook for quick introduction. 
+Toy implementation of automatic gradients for training neural networks. See [Jupyter notebook](/20230314_train_digits.ipynb) for quick introduction. 
 
 - [x] Implement automatic differentiation
    - [x] Dynamic computational graph tracing
@@ -18,7 +18,7 @@ Toy implementation of automatic gradients for training neural networks. See Jupy
      - Context manager to disable gradient tracking during evaluation
    - [x] Test automatic gradients against gradients computed with finite differences
      - Implementation of finite difference is in [`finite_diff.py`](/finite_diff.py), see `finite_difference` function
-     - Gradient test with a full neural network in Jupyter notebook
+     - Gradient test with a full neural network in [Jupyter notebook](/20230314_train_digits.ipynb)
      - Gradient tests for basic operations are in [`test_grads.py`](/tests/test_grads.py).
 - [x] NN training facilities
   - See [`modules.py`](/modules.py)
