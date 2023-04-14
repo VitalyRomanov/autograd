@@ -43,7 +43,7 @@ def backprop(root: Tensor):
         backward_ops = node._backward_op
         g = node.grad
         ans = node.data
-        node.grad = None  # avoid reusing consumed gradient
+        node.grad = None  # avoid reusing consumed gradients
 
         for parent, backward_op in zip(args, backward_ops):
             if parent.requires_grad and backward_op is not None:

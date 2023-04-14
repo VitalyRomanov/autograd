@@ -78,7 +78,6 @@ def _make_op_output_tensor(np_op, *args: _TensorPrimitive, **kwargs) -> Tensor:
     if _get_context("grad_enabled") and new_tensor.dtype in float_types:
         new_tensor._recipe = (args, kwargs)
         new_tensor._backward_op = backward_ops.get(np_op, None)
-        new_tensor._forward_op = np_op
         differentiable = new_tensor._backward_op is not None
 
     new_tensor.requires_grad = differentiable
@@ -90,10 +89,11 @@ class _TensorPrimitive:
     Base class for gradient computation and backpropagation. Used to store tensor data and gradient, and
     at the same time to track computational graph.
     """
+    # Define some fields as private so that user is discouraged to interact with them
+    _recipe: Optional[Tuple[Iterable[_TensorPrimitive], Dict[str, Any]]] = None  # inputs for creating this tensor
+    _backward_op: Optional[Tuple[Callable, ...]] = None  # backpropagation ops for elements in `_recipe`
+
     data: Optional[Union[tensor_np_array, slice, Tuple]] = None  # placeholder for tensor data
-    _recipe: Optional[Tuple[Iterable[_TensorPrimitive], Dict[str, Any]]] = None  # how this tensor was created, used for backpropagation
-    _backward_op: Optional[Tuple[Callable, ...]] = None
-    _forward_op: Optional[Callable] = None
     requires_grad: Optional[bool] = None  # whether gradients for this tensor should be computed
     grad: Optional[diff_np_array] = None  # placeholder for gradient value, populated during backpropagation
 
