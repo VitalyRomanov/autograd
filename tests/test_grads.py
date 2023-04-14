@@ -527,14 +527,14 @@ def test_backprop(grad_error_tolerance=1e-4, dx=1e-6):
     assert within_tolerance(fd_grads[1], b.grad, grad_error_tolerance)
     reset_grads(a, b)
 
-    # matmul
-    def matmul(x, y, z):
+    # matmul + bias
+    def matmul_bias(x, y, z):
         return (x.T @ y + z).sum()
 
     z = make_parameter(np.array([[.54]]))
     with no_grad():
-        fd_grads = finite_difference(dx, matmul, a, b, z)
-    backprop(matmul(a, b, z))
+        fd_grads = finite_difference(dx, matmul_bias, a, b, z)
+    backprop(matmul_bias(a, b, z))
     assert within_tolerance(fd_grads[0], a.grad, grad_error_tolerance)
     assert within_tolerance(fd_grads[1], b.grad, grad_error_tolerance)
     assert within_tolerance(fd_grads[2], z.grad, grad_error_tolerance)
